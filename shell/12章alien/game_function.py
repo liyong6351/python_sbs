@@ -171,4 +171,4 @@ def check_alien_bottom(ai_settings, stats, screen, ship, aliens, bullets):
     for alien in aliens.sprites():
         if alien.rect.bottom >= screen_rect.bottom:
             ship_hit(ai_settings, stats, screen, ship, aliens, bullets)
-        break
+            break
