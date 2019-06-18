@@ -133,20 +133,23 @@ def update_aliens(ai_settings, stats, screen, ship, aliens, bullets):
 
 # 响应外星人撞到飞船
 def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
-    # 将ships_left的数值减1
-    stats.ships_left -= 1
 
-    # 清空外星人列表和子弹列表
-    aliens.empty()
-    bullets.empty()
+    if stats.ships_left > 0:
+        # 将ships_left的数值减1
+        stats.ships_left -= 1
 
-    # 创建一群外星人，并将飞船放到屏幕低端中央
-    create_fleet(ai_settings, screen, ship, aliens)
-    # 将飞船居中
-    ship.center_ship()
-    # 暂停
-    sleep(0.5)
+        # 清空外星人列表和子弹列表
+        aliens.empty()
+        bullets.empty()
 
+        # 创建一群外星人，并将飞船放到屏幕低端中央
+        create_fleet(ai_settings, screen, ship, aliens)
+        # 将飞船居中
+        ship.center_ship()
+        # 暂停
+        sleep(0.5)
+    else:
+        stats.game_active = False
 
 
 # 有外星人到达边缘时采取相应的措施
