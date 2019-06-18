@@ -4,6 +4,7 @@ from settings import Settings
 from ship import Ship
 from alien import Alien
 from game_stats import GameStats
+from button import Button
 from pygame.sprite import Group
 import game_function as gf
 
@@ -27,12 +28,14 @@ def run_game():
 
     pygame.display.set_caption("alien invasion")
     stats = GameStats(ai_settings)
+
+    play_button = Button(ai_settings, screen, "Play")
     
     # 开始游戏的主循环
     while True:
 
         # 监听键盘和鼠标的事件
-        gf.check_events(ai_settings, screen, ship, bullets)
+        gf.check_events(ai_settings, screen, stats, play_button, ship, bullets)
         if stats.game_active:
                 # 飞船更新
                 ship.update()
@@ -40,7 +43,7 @@ def run_game():
                 gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
                 gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
         # 更新屏幕
-        gf.update_screen(ai_settings, screen, ship, aliens, bullets)
+        gf.update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button)
 
 
 run_game()
