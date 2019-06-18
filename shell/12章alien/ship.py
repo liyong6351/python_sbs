@@ -29,3 +29,7 @@ class Ship():
             #self.rect.centerx -= 1
             self.center -= self.settings.ship_speed_factor
         self.rect.centerx = self.center
+
+    # 将飞船在屏幕上居中
+    def center_ship(self):
+        self.center = self.screen_rect.centerx

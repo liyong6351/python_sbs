@@ -16,7 +16,10 @@ class Settings():
         self.bullet_allowed = 30
 
         #外星人设置
-        self.alien_speed_factor = 1
-        self.fleet_drop_speed = 10
+        self.alien_speed_factor = 10
+        self.fleet_drop_speed = 30
         # 1表示右移，-1表示左移
         self.fleet_direction = 1
+
+        # 每个玩家拥有的飞船条数
+        self.ship_limit = 3

@@ -3,6 +3,7 @@ import pygame
 from settings import Settings
 from ship import Ship
 from alien import Alien
+from game_stats import GameStats
 from pygame.sprite import Group
 import game_function as gf
 
@@ -25,7 +26,8 @@ def run_game():
     gf.create_fleet(ai_settings, screen, ship, aliens)
 
     pygame.display.set_caption("alien invasion")
-
+    stats = GameStats(ai_settings)
+    
     # 开始游戏的主循环
     while True:
 
@@ -36,7 +38,7 @@ def run_game():
         ship.update()
         # 子弹更新
         gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
-        gf.update_aliens(ai_settings, aliens)
+        gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
         # 更新屏幕
         gf.update_screen(ai_settings, screen, ship, aliens, bullets)
 
