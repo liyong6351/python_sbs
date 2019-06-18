@@ -22,7 +22,7 @@ def run_game():
     # 创建一个用于外星人的编组
     aliens = Group()
     # 创建外星人群
-    gf.create_fleet(ai_settings, screen, aliens)
+    gf.create_fleet(ai_settings, screen, ship, aliens)
 
     pygame.display.set_caption("alien invasion")
 
