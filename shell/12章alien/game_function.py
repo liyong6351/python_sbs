@@ -4,6 +4,9 @@ from bullet import Bullet
 
 # 检测按钮按下事件
 def check_keydown_events(event,ai_settings, screen, ship, bullets):
+    # 如果是q则退出
+    if event.key == pygame.K_q:
+        sys.exit()
     # 响应向右移动
     if event.key == pygame.K_RIGHT:
         ship.moving_right = True
@@ -42,13 +45,14 @@ def check_events(ai_settings, screen, ship, bullets):
             check_keyup_events(event, ship)
 
 # 更新屏幕
-def update_screen(ai_settings, screen, ship, bullets):
+def update_screen(ai_settings, screen, ship, alien, bullets):
     # 每次循环都重绘屏幕
     screen.fill(ai_settings.bg_color)
     # 在飞船和外星人后面重绘所有子弹
     for bullet in bullets:
         bullet.draw_bullet()
     ship.blitme()
+    alien.blitme()
 
     # 让最近绘制的屏幕可见
     pygame.display.flip()
