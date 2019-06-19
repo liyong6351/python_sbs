@@ -5,6 +5,7 @@ from ship import Ship
 from alien import Alien
 from game_stats import GameStats
 from button import Button
+from scoreboard import Scoreboard
 from pygame.sprite import Group
 import game_function as gf
 
@@ -28,6 +29,8 @@ def run_game():
 
     pygame.display.set_caption("alien invasion")
     stats = GameStats(ai_settings)
+    # 创建一个得分牌
+    sb = Scoreboard(ai_settings, screen, stats)
 
     play_button = Button(ai_settings, screen, "Play")
     
@@ -43,7 +46,7 @@ def run_game():
                 gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
                 gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
         # 更新屏幕
-        gf.update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button)
+        gf.update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_button)
 
 
 run_game()
