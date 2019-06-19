@@ -31,7 +31,6 @@ def check_keyup_events(event, ship):
     if event.key == pygame.K_LEFT:
         ship.moving_left = False
 
-
 # 检测按键和鼠标事件
 def check_events(ai_settings, screen, stats, play_button, ship, aliens, bullets):
     # 响应按键和鼠标事件
@@ -93,7 +92,7 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_bu
     pygame.display.flip()
 
 # 更新子弹
-def update_bullets(ai_settings, screen, ship, aliens, bullets):
+def update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets):
     # 更新子弹的位置
     bullets.update()
 
@@ -102,13 +101,17 @@ def update_bullets(ai_settings, screen, ship, aliens, bullets):
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
 
-    check_bullet_alien_collision(ai_settings, screen, ship, aliens, bullets)
+    check_bullet_alien_collision(ai_settings, screen, stats, sb, ship, aliens, bullets)
 
 # 处理子弹和外星人碰撞同时删除发生的子弹和外星人，同时检测是否需要重新绘制外星人
-def check_bullet_alien_collision(ai_settings, screen, ship, aliens, bullets):
+def check_bullet_alien_collision(ai_settings, screen, stats, sb, ship, aliens, bullets):
     # 检查是否有子弹击中了外星人，如果是，则删除相应的子弹和外星人
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
-    
+    if collisions:
+        stats.score += ai_settings.alien_points
+        sb.prep_score()
+    check_high_score(stats, sb)
+
     if len(aliens) ==0:
         bullets.empty()
         ai_settings.increase_speed()
@@ -179,6 +182,7 @@ def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
         create_fleet(ai_settings, screen, ship, aliens)
         # 将飞船居中
         ship.center_ship()
+        
         # 暂停
         sleep(0.5)
     else:
@@ -206,3 +210,9 @@ def check_alien_bottom(ai_settings, stats, screen, ship, aliens, bullets):
         if alien.rect.bottom >= screen_rect.bottom:
             ship_hit(ai_settings, stats, screen, ship, aliens, bullets)
             break
+
+# 检查是否诞生了最高分
+def check_high_score(stats, sb):
+    if stats.score > stats.high_score:
+        stats.high_score = stats.score
+        sb.prep_high_score()
