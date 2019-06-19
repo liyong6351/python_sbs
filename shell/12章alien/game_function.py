@@ -56,6 +56,8 @@ def check_events(ai_settings, screen, stats, play_button, ship, aliens, bullets)
 def check_play_button(ai_settings, screen, stats, play_button, ship, aliens, bullets, mouse_x, mouse_y):
         button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
         if button_clicked and not stats.game_active:
+            # 重置游戏设置
+            ai_settings.initialized_dynamic_settings()
             # 隐藏光标
             pygame.mouse.set_visible(False)
             # 重置游戏统计信息
@@ -107,6 +109,7 @@ def check_bullet_alien_collision(ai_settings, screen, ship, aliens, bullets):
     
     if len(aliens) ==0:
         bullets.empty()
+        ai_settings.increase_speed()
         create_fleet(ai_settings, screen, ship, aliens)
 
 
