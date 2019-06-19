@@ -71,6 +71,7 @@ def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens,
             sb.prep_score()
             sb.prep_high_score()
             sb.prep_level()
+            sb.prep_ships()
 
             # 创建一群外星人，并让飞船居中
             create_fleet(ai_settings, screen, ship, aliens)
@@ -167,22 +168,25 @@ def create_alien(ai_settings, screen, aliens, alien_number, row_number):
     aliens.add(alien)
 
 # 更新外星人数组中的所有外星人位置
-def update_aliens(ai_settings, stats, screen, ship, aliens, bullets):
+def update_aliens(ai_settings, screen, stats, sb, ship, aliens, bullets):
     check_fleet_edges(ai_settings, aliens)
     aliens.update()
 
     # 检测外星人和飞船之间的碰撞
     if pygame.sprite.spritecollideany(ship, aliens):
-        ship_hit(ai_settings, stats, screen, ship, aliens, bullets)
+        ship_hit(ai_settings, screen, stats, sb, ship, aliens, bullets)
     
-    check_alien_bottom(ai_settings, stats, screen, ship, aliens, bullets)
+    check_alien_bottom(ai_settings, screen, stats, sb, ship, aliens, bullets)
 
 # 响应外星人撞到飞船
-def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
+def ship_hit(ai_settings, screen, stats, sb, ship, aliens, bullets):
 
     if stats.ships_left > 0:
         # 将ships_left的数值减1
         stats.ships_left -= 1
+
+        # 更新记分牌
+        sb.prep_ships()
 
         # 清空外星人列表和子弹列表
         aliens.empty()
@@ -214,11 +218,11 @@ def change_fleet_direction(ai_settings, aliens):
     ai_settings.fleet_direction *= -1
 
 # 检查是否由外星人达到了屏幕底端
-def check_alien_bottom(ai_settings, stats, screen, ship, aliens, bullets):
+def check_alien_bottom(ai_settings, screen, stats, sb, ship, aliens, bullets):
     screen_rect = screen.get_rect()
     for alien in aliens.sprites():
         if alien.rect.bottom >= screen_rect.bottom:
-            ship_hit(ai_settings, stats, screen, ship, aliens, bullets)
+            ship_hit(ai_settings, screen, stats, sb, ship, aliens, bullets)
             break
 
 # 检查是否诞生了最高分
